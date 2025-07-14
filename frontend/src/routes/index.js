@@ -13,6 +13,7 @@ import Cart from '../pages/Cart';
 import SearchProduct from '../pages/SearchProduct';
 import Profile from '../pages/Profile';
 import Orders from '../pages/Orders';
+import ContactUs from '../pages/ContactUs';
 
 const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
             {
                 path: 'orders',
                 element: <Orders />
+            },
+            {
+                path: 'contact',
+                element: <ContactUs />
             },
             {
                 path: 'admin-panel',

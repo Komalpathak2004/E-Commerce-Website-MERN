@@ -45,105 +45,125 @@ const Header = () => {
   };
 
   return (
-    <header className="h-16 shadow-md bg-white fixed w-full z-40">
-      <div className="h-full container mx-auto flex items-center px-4 justify-between">
-        <div style={{ padding: 9, margin: 15, marginLeft: "0%" }}>
-          <Link to={"/"}>
-            <Logo w={70} h={50} />
+    <header className="bg-white shadow-md fixed w-full z-50">
+      <div className="container mx-auto flex items-center justify-between px-4 py-2 h-16">
+        {/* Logo */}
+        <div className="flex items-center">
+          <Link to="/">
+            <Logo w={60} h={40} />
           </Link>
         </div>
-        <div className="hidden lg:flex items-center w-full justify-between max-w-sm border rounded-full focus-within:shadow pl-3">
+        {/* Search Bar */}
+        <div className="hidden md:flex items-center w-full max-w-md mx-6 border border-gray-200 rounded-full focus-within:shadow-lg bg-gray-50">
           <input
             type="text"
             placeholder="Search Products"
-            className="w-full outline-none"
+            className="w-full px-4 py-2 bg-transparent outline-none text-gray-700 rounded-l-full"
             onChange={handleSearch}
           />
-          <div className="text-lg min-w-[50px] h-8 bg-blue-800 flex items-center justify-center rounded-r-full text-white">
+          <button className="flex items-center justify-center px-4 h-10 bg-blue-700 rounded-r-full text-white text-xl hover:bg-blue-800 transition">
             <IoSearch />
-          </div>
+          </button>
         </div>
-
-        <div className="flex items-center gap-7">
-          <div className="relative flex justify-center">
+        {/* Navigation & User */}
+        <div className="flex items-center gap-4 md:gap-7">
+          {/* User Menu */}
+          <div className="relative flex items-center">
             {user?._id && (
-              <div
-                className="text-3xl justify-center cursor-pointer relative flex"
+              <button
+                className="text-3xl flex items-center justify-center focus:outline-none"
                 onClick={() => setMenuDisplay((prev) => !prev)}
               >
                 {user?.profilePic ? (
-                  <img src={user?.profilePic} className="w-10 h-10 rounded-full" />
+                  <img src={user?.profilePic} className="w-10 h-10 rounded-full object-cover border-2 border-blue-700" alt="profile" />
                 ) : (
-                  <HiOutlineUserCircle />
+                  <HiOutlineUserCircle className="text-blue-700" />
                 )}
-              </div>
+              </button>
             )}
-
+            {/* Dropdown */}
             {menuDisplay && (
-              <div className="absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded">
-                <nav>
+              <div className="absolute right-0 top-12 bg-white shadow-lg rounded-lg py-2 w-40 animate-fade-in z-50">
+                <nav className="flex flex-col">
                   <Link
-                    to={"/profile"}
-                    className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                    to="/profile"
+                    className="px-4 py-2 hover:bg-blue-50 text-gray-700 text-sm"
                     onClick={() => setMenuDisplay(false)}
                   >
                     Profile
                   </Link>
                   <Link
-                    to={"/orders"}
-                    className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                    to="/orders"
+                    className="px-4 py-2 hover:bg-blue-50 text-gray-700 text-sm"
                     onClick={() => setMenuDisplay(false)}
                   >
                     Orders
                   </Link>
                   {user?.role === ROLE.ADMIN && (
-                    <>
-                      <Link
-                        to={"/admin-panel/all-products"}
-                        className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
-                        onClick={() => setMenuDisplay(false)}
-                      >
-                        Admin Panel
-                      </Link>
-                    </>
+                    <Link
+                      to="/admin-panel/all-products"
+                      className="px-4 py-2 hover:bg-blue-50 text-gray-700 text-sm"
+                      onClick={() => setMenuDisplay(false)}
+                    >
+                      Admin Panel
+                    </Link>
                   )}
                 </nav>
               </div>
             )}
           </div>
+          {/* Cart */}
           {user?._id && (
-            <Link to={"/cart"} className="text-3xl relative">
-              <span>
-                <BsCartFill />
+            <Link to="/cart" className="relative text-2xl text-blue-700 hover:text-blue-900 transition">
+              <BsCartFill />
+              <span className="absolute -top-2 -right-2 bg-blue-700 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold">
+                {context?.cartProductCount}
               </span>
-              <div className="bg-blue-700 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute top-2 -right-3">
-                <p className="text-sm">{context?.cartProductCount}</p>
-              </div>
             </Link>
           )}
-
+          {/* Contact Us Navigation Link */}
+          <Link
+            to="/contact"
+            className="px-4 py-1 rounded-full text-white bg-green-600 hover:bg-green-700 transition text-sm font-semibold"
+          >
+            Contact Us
+          </Link>
+          {/* Auth Button */}
           <div>
             {user?._id ? (
               <button
                 onClick={handleLogout}
-                className="px-3 py-1 rounded-full text-white bg-blue-700 hover:bg-blue-900"
+                className="px-4 py-1 rounded-full text-white bg-blue-700 hover:bg-blue-900 transition text-sm font-semibold"
               >
                 Logout
               </button>
             ) : (
               <Link
-                className="px-3 py-1 rounded-full text-white bg-blue-700 hover:bg-blue-900"
+                className="px-4 py-1 rounded-full text-white bg-blue-700 hover:bg-blue-900 transition text-sm font-semibold"
                 to="/login"
               >
                 Login
               </Link>
             )}
           </div>
-          <div>
-            <Link to="/" className="text-3xl text-blue-700">
-              <IoHomeOutline />
-            </Link>
-          </div>
+          {/* Home Icon */}
+          <Link to="/" className="text-2xl text-blue-700 hover:text-blue-900 transition">
+            <IoHomeOutline />
+          </Link>
+        </div>
+      </div>
+      {/* Mobile Search Bar */}
+      <div className="flex md:hidden px-4 pb-2 pt-1 bg-white shadow-sm">
+        <div className="flex items-center w-full border border-gray-200 rounded-full focus-within:shadow-lg bg-gray-50">
+          <input
+            type="text"
+            placeholder="Search Products"
+            className="w-full px-4 py-2 bg-transparent outline-none text-gray-700 rounded-l-full"
+            onChange={handleSearch}
+          />
+          <button className="flex items-center justify-center px-4 h-10 bg-blue-700 rounded-r-full text-white text-xl hover:bg-blue-800 transition">
+            <IoSearch />
+          </button>
         </div>
       </div>
     </header>
